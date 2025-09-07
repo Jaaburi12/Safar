@@ -939,7 +939,7 @@
   <div class="app">
     <div class="logo-container">
       <img src="https://i.ibb.co/r28SP1bN/20250802-225108.png" alt="Laam Logo">
-      <h1>Laam wallet</h1>
+      <h1>wallet</h1>
     </div>
 
     <!-- AUTH SECTION -->
@@ -1088,7 +1088,7 @@
        </div>
         <div class="container">
         <div class="header">
-            <h1>XLM & Laam Swap</h1>
+            <h1>Swap</h1>
             <p>Waxbeddel hantidaada si fudud iyo habsami</p>
         </div>
         
@@ -3114,6 +3114,88 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
       });
   });
 }
+        document.addEventListener('DOMContentLoaded', function() {
+            const swapButton = document.getElementById('swapButton');
+            const fromAsset = document.getElementById('fromAsset');
+            const toAsset = document.getElementById('toAsset');
+            const fromAmount = document.getElementById('fromAmount');
+            const toAmount = document.getElementById('toAmount');
+            const exchangeRate = document.querySelector('.exchange-rate p');
+            
+            // Initial values
+            let fromAssetType = 'XLM';
+            let toAssetType = 'Laam';
+            let rate = 0.25; // 1 XLM = 0.25 Laam
+            
+            // Swap functionality
+            swapButton.addEventListener('click', function() {
+                // Rotate the button
+                this.style.transform = 'rotate(180deg)';
+                
+                // Swap assets
+                [fromAssetType, toAssetType] = [toAssetType, fromAssetType];
+                
+                // Update UI
+                updateAssetDisplay();
+                
+                // Recalculate conversion
+                calculateConversion();
+                
+                // Reset rotation after animation
+                setTimeout(() => {
+                    this.style.transform = 'rotate(0)';
+                }, 300);
+            });
+            
+            // Calculate conversion when amount changes
+            fromAmount.addEventListener('input', calculateConversion);
+            
+            function calculateConversion() {
+                const amount = parseFloat(fromAmount.value) || 0;
+                
+                if (fromAssetType === 'XLM') {
+                    toAmount.value = (amount * rate).toFixed(2);
+                } else {
+                    toAmount.value = (amount / rate).toFixed(2);
+                }
+                
+                updateExchangeRateText();
+            }
+            
+            function updateAssetDisplay() {
+                if (fromAssetType === 'XLM') {
+                    fromAsset.innerHTML = `
+                        <div class="asset-icon" style="background: #00b3ff; color: white;">X</div>
+                        <div class="asset-name">XLM</div>
+                    `;
+                    toAsset.innerHTML = `
+                        <div class="asset-icon" style="background: #7b42f6; color: white;">L</div>
+                        <div class="asset-name">Laam</div>
+                    `;
+                } else {
+                    fromAsset.innerHTML = `
+                        <div class="asset-icon" style="background: #7b42f6; color: white;">L</div>
+                        <div class="asset-name">Laam</div>
+                    `;
+                    toAsset.innerHTML = `
+                        <div class="asset-icon" style="background: #00b3ff; color: white;">X</div>
+                        <div class="asset-name">XLM</div>
+                    `;
+                }
+            }
+            
+            function updateExchangeRateText() {
+                if (fromAssetType === 'XLM') {
+                    exchangeRate.textContent = `1 XLM = ${rate} Laam | 1 Laam = ${(1/rate).toFixed(2)} XLM`;
+                } else {
+                    exchangeRate.textContent = `1 Laam = ${(1/rate).toFixed(2)} XLM | 1 XLM = ${rate} Laam`;
+                }
+            }
+            
+            // Initialize
+            updateAssetDisplay();
+            updateExchangeRateText();
+        });
 </script>             
 </body>
 </html>
