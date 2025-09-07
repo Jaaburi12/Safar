@@ -25,7 +25,242 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <!-- Add Chart.js for beautiful charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
+Swap Button</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+        
+        .swap-container {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .asset-input {
+            margin-bottom: 20px;
+        }
+        
+        .asset-input:last-child {
+            margin-bottom: 0;
+        }
+        
+        .asset-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .input-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 15px;
+            outline: none;
+        }
+        
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .asset-selector {
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            background: rgba(0, 0, 0, 0.2);
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .asset-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .asset-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .swap-button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .swap-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(254, 180, 123, 0.4);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .swap-button:hover {
+            transform: rotate(180deg);
+            box-shadow: 0 7px 20px rgba(254, 180, 123, 0.6);
+        }
+        
+        .swap-button:active {
+            transform: scale(0.95) rotate(180deg);
+        }
+        
+        .swap-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .info-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .connect-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .connect-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .swap-action-button {
+            background: linear-gradient(135deg, #00cdac, #02aab0);
+            color: white;
+            box-shadow: 0 4px 15px rgba(2, 170, 176, 0.3);
+        }
+        
+        .swap-action-button:hover {
+            box-shadow: 0 6px 20px rgba(2, 170, 176, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .exchange-rate {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .swap-button {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+            
+            .input-group input {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    <style>
   .custom-alert {
     position: fixed;
     bottom: 20px;
