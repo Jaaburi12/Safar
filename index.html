@@ -1086,6 +1086,52 @@
         <button id="btnSend" style="margin-top:10px;">Send Now</button>
     </div>
        </div>
+        <div class="container">
+        <div class="header">
+            <h1>XLM & Laam Swap</h1>
+            <p>Waxbeddel hantidaada si fudud iyo habsami</p>
+        </div>
+        
+        <div class="swap-container">
+            <div class="asset-input">
+                <label class="asset-label">Aad bixisay</label>
+                <div class="input-group">
+                    <input type="number" placeholder="0.0" id="fromAmount">
+                    <div class="asset-selector" id="fromAsset">
+                        <div class="asset-icon" style="background: #00b3ff; color: white;">X</div>
+                        <div class="asset-name">XLM</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="swap-button-container">
+                <div class="swap-line"></div>
+                <button class="swap-button" id="swapButton">⇄</button>
+            </div>
+            
+            <div class="asset-input">
+                <label class="asset-label">Aad heleysid</label>
+                <div class="input-group">
+                    <input type="number" placeholder="0.0" id="toAmount" readonly>
+                    <div class="asset-selector" id="toAsset">
+                        <div class="asset-icon" style="background: #7b42f6; color: white;">L</div>
+                        <div class="asset-name">Laam</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="exchange-rate">
+                <p>1 XLM = 0.25 Laam | 1 Laam = 4.00 XLM</p>
+            </div>
+            
+            <p class="info-text">Qiimaha waa mid isbeddelaya. Lacag bixinta: 0.5%</p>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button connect-button">Xiriir Wallet</button>
+            <button class="action-button swap-action-button">Samee Swap</button>
+        </div>
+        </div>
 
       <!-- Enhanced Trade Section -->
       <div class="card trade-card">
@@ -1286,6 +1332,7 @@
     </div>
   </div>
     <div id="successAlert" class="custom-alert">Transaction sent successful</div>
+    
 
   <script>
     // Laam token configuration
